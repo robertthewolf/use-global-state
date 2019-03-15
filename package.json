@@ -2,7 +2,7 @@
   "name": "use-global-state",
   "description": "Global state react hook for easy management of data",
   "version": "0.1.0",
-  "author": "Robert Wolf",
+  "author": "Robert Wolf <work@robertwolf.cz>",
   "repository": {
     "type": "git",
     "url": "https://github.com/robertthewolf/use-global-state"
