@@ -1,4 +1,3 @@
-'use strict';
 var {
   createContext,
   createElement,
@@ -98,7 +97,7 @@ var createGlobalStateCommon = (initialState) => {
 
 // export functions
 
-module.exports.createGlobalState = (initialState) => {
+const createGlobalState = (initialState) => {
   var {
     GlobalStateProvider,
     useGlobalState,
@@ -111,7 +110,7 @@ module.exports.createGlobalState = (initialState) => {
   };
 };
 
-module.exports.createStore = (reducer, initialState, enhancer) => {
+const createStore = (reducer, initialState, enhancer) => {
   if (enhancer) return enhancer(createStore)(reducer, initialState);
   var {
     GlobalStateProvider,
@@ -133,3 +132,8 @@ module.exports.createStore = (reducer, initialState, enhancer) => {
     dispatch,
   };
 };
+
+module.exports = {
+  createStore,
+  createGlobalState
+}
