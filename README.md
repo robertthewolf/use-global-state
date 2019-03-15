@@ -1,7 +1,7 @@
 
 # use-global-state
 
-React Hooks for using global state
+Global state react hook for easy management of data
 
 simplified from [dai-shi/react-hooks-global-state](https://github.com/dai-shi/react-hooks-global-state)
 
