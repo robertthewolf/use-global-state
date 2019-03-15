@@ -1,17 +1,18 @@
-import {
+'use strict';
+var {
   createContext,
   createElement,
   useCallback,
   useState,
   useEffect,
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
-} from 'react';
+} = require('react');
 
 // utility functions
 
-const isFunction = fn => (typeof fn === 'function');
+var isFunction = fn => (typeof fn === 'function');
 
-const updateValue = (oldValue, newValue) => {
+var updateValue = (oldValue, newValue) => {
   if (isFunction(newValue)) {
     return newValue(oldValue);
   }
@@ -19,9 +20,9 @@ const updateValue = (oldValue, newValue) => {
 };
 
 // ref: https://github.com/dai-shi/react-hooks-global-state/issues/5
-const useUnstableContextWithoutWarning = (Context, observedBits) => {
-  const { ReactCurrentDispatcher } = __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-  const dispatcher = ReactCurrentDispatcher.current;
+var useUnstableContextWithoutWarning = (Context, observedBits) => {
+  var { ReactCurrentDispatcher } = __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  var dispatcher = ReactCurrentDispatcher.current;
   if (!dispatcher) {
     throw new Error('Hooks can only be called inside the body of a function component. (https://fb.me/react-invalid-hook-call)');
   }
@@ -30,23 +31,23 @@ const useUnstableContextWithoutWarning = (Context, observedBits) => {
 
 // core functions
 
-const createGlobalStateCommon = (initialState) => {
-  const keys = Object.keys(initialState);
-  let globalState = initialState;
-  const listeners = [];
+var createGlobalStateCommon = (initialState) => {
+  var keys = Object.keys(initialState);
+  var globalState = initialState;
+  var listeners = [];
 
-  const calculateChangedBits = (a, b) => {
-    let bits = 0;
+  var calculateChangedBits = (a, b) => {
+    var bits = 0;
     keys.forEach((k, i) => {
       if (a[k] !== b[k]) bits |= 1 << i;
     });
     return bits;
   };
 
-  const Context = createContext(initialState, calculateChangedBits);
+  var Context = createContext(initialState, calculateChangedBits);
 
-  const GlobalStateProvider = ({ children }) => {
-    const [state, setState] = useState(initialState);
+  var GlobalStateProvider = ({ children }) => {
+    var [state, setState] = useState(initialState);
     useEffect(() => {
       listeners.push(setState);
       if (globalState !== initialState) {
@@ -54,8 +55,8 @@ const createGlobalStateCommon = (initialState) => {
         // Note: there could be a better way for this
         setState(globalState);
       }
-      const cleanup = () => {
-        const index = listeners.indexOf(setState);
+      var cleanup = () => {
+        var index = listeners.indexOf(setState);
         listeners.splice(index, 1);
       };
       return cleanup;
@@ -63,7 +64,7 @@ const createGlobalStateCommon = (initialState) => {
     return createElement(Context.Provider, { value: state }, children);
   };
 
-  const setGlobalState = (name, update) => {
+  var setGlobalState = (name, update) => {
     globalState = {
       ...globalState,
       [name]: updateValue(globalState[name], update),
@@ -71,17 +72,17 @@ const createGlobalStateCommon = (initialState) => {
     listeners.forEach(f => f(globalState));
   };
 
-  const useGlobalState = (name) => {
-    const index = keys.indexOf(name);
-    const observedBits = 1 << index;
-    const state = useUnstableContextWithoutWarning(Context, observedBits);
-    const updater = useCallback(u => setGlobalState(name, u), [name]);
+  var useGlobalState = (name) => {
+    var index = keys.indexOf(name);
+    var observedBits = 1 << index;
+    var state = useUnstableContextWithoutWarning(Context, observedBits);
+    var updater = useCallback(u => setGlobalState(name, u), [name]);
     return [state[name], updater];
   };
 
-  const getState = () => globalState;
+  var getState = () => globalState;
 
-  const setState = (state) => {
+  var setState = (state) => {
     globalState = state;
     listeners.forEach(f => f(globalState));
   };
@@ -97,8 +98,8 @@ const createGlobalStateCommon = (initialState) => {
 
 // export functions
 
-export const createGlobalState = (initialState) => {
-  const {
+module.exports.createGlobalState = (initialState) => {
+  var {
     GlobalStateProvider,
     useGlobalState,
     setGlobalState,
@@ -110,17 +111,17 @@ export const createGlobalState = (initialState) => {
   };
 };
 
-export const createStore = (reducer, initialState, enhancer) => {
+module.exports.createStore = (reducer, initialState, enhancer) => {
   if (enhancer) return enhancer(createStore)(reducer, initialState);
-  const {
+  var {
     GlobalStateProvider,
     useGlobalState,
     getState,
     setState,
   } = createGlobalStateCommon(initialState);
-  const dispatch = (action) => {
-    const oldState = getState();
-    const newState = reducer(oldState, action);
+  var dispatch = (action) => {
+    var oldState = getState();
+    var newState = reducer(oldState, action);
     setState(newState);
     return action;
   };

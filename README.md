@@ -8,7 +8,7 @@ simplified from [dai-shi/react-hooks-global-state](https://github.com/dai-shi/re
 ## Install
 
 ```bash
-npm install react-hooks-global-state
+npm install --save use-global-state
 ```
 
 ## Usage
