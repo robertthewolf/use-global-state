@@ -1,7 +1,7 @@
 {
   "name": "use-global-state",
   "description": "Global state react hook for easy management of data",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Robert Wolf <work@robertwolf.cz>",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "pure"
   ],
   "license": "ISC",
-  "dependencies": {
+  "peerDependencies": {
     "react": "^16.8.0"
   }
 }

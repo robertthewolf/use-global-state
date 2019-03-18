@@ -64,10 +64,8 @@ var createGlobalStateCommon = (initialState) => {
   };
 
   var setGlobalState = (name, update) => {
-    globalState = {
-      ...globalState,
-      [name]: updateValue(globalState[name], update),
-    };
+    const updated = updateValue(globalState[name], update);
+    globalState[name] = updated;
     listeners.forEach(f => f(globalState));
   };
 
